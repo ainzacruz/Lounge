@@ -1,0 +1,11 @@
+{
+  "name": "foundit",
+  "version": "1.0.0",
+  "description": "A reddit-like application for users to discuss and share content",
+  "main": "src/server.js",
+  "scripts": {
+    "test": "export NODE_ENV=test && jasmine"
+  },
+  "author": "Adrian C",
+  "license": "ISC"
+}
