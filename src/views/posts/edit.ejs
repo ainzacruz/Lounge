@@ -7,6 +7,8 @@
     <% include ../static/partials/navbar.ejs %>
 
     <main class="container">
+      <% include ../static/partials/messages.ejs %>
+
       <h1>Edit Post</h1>
 
       <form
@@ -23,6 +25,9 @@
             aria-describedby="titleHelp"
             placeholder="Enter Title"
           />
+          <small class="text-muted" id="titleHelp"
+            >title must be 2 or more characters in length.</small
+          >
         </div>
         <div class="form-group">
           <label for="body">Post body</label>
@@ -33,6 +38,9 @@
             placeholder="Enter Description"
           >
 <%= post.body %></textarea
+          >
+          <small class="text-muted" id="bodyHelp"
+            >body must be 10 or more characters in length.</small
           >
         </div>
         <button type="submit" class="btn btn-primary">Update</button>

@@ -3,6 +3,9 @@ require("dotenv").config(); //Node package that assists us with handling environ
 const path = require("path"); //require path module
 const viewsFolder = path.join(__dirname, "..", "views"); //set path where the templating engine will find the views and set it on Express application
 const bodyParser = require("body-parser");
+const expressValidator = require("express-validator");
+const session = require("express-session");
+const flash = require("express-flash");
 
 //modify init with parameters to hold our express app.
 module.exports = {
@@ -11,5 +14,15 @@ module.exports = {
     app.set("view engine", "ejs");
     app.use(bodyParser.urlencoded({ extended: true }));
     app.use(express.static(path.join(__dirname, "..", "assets")));
+    app.use(expressValidator());
+    app.use(
+      session({
+        secret: process.env.cookieSecret,
+        resave: false,
+        saveUninitialized: false,
+        cookie: { maxAge: 60000 }
+      })
+    );
+    app.use(flash());
   }
 };
