@@ -1,6 +1,7 @@
 const request = require("request"); //import request module which we will use to make requests to server during our tests
 const server = require("../../src/server"); //require server
 const base = "http://localhost:3000/"; //define base URL that we use for our requests
+const base_2 = "http://localhost3000/about";
 
 //write test for root path
 describe("routes : static", () => {
@@ -15,6 +16,12 @@ describe("routes : static", () => {
 
         //#4 call done method to let Jasmine know our test is completed.
         done();
+      });
+    });
+
+    it("should return status code 200 for route /about", () => {
+      request.get(base_2, (err, res, body) => {
+        expect(res.statusCode).toBe(200);
       });
     });
   });

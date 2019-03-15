@@ -7,4 +7,5 @@ const staticController = require("../controllers/staticController");
 //   res.send("Welcome to foundit!");
 // });
 router.get("/", staticController.index);
+router.get("/about", staticController.about);
 module.exports = router;

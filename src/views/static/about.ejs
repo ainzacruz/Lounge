@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <% include ./partials/head.ejs %>
+  </head>
+  <body>
+    <% include ./partials/navbar.ejs %>
+
+    <!-- Page Content -->
+    <main class="container">
+      <!-- Jumbotron Header -->
+      <header class="jumbotron my-4">
+        <h1 class="display-3">Welcome to foundit!</h1>
+        <p class="lead">An application for users to share information.</p>
+        <a href="#" class="btn btn-primary btn-lg">Sign up</a>
+      </header>
+
+      <!-- Page Features -->
+      <section class="row text-center">
+        <% include ./partials/aboutUs.ejs %>
+      </section>
+      <!-- /.row -->
+    </main>
+    <!-- /.container -->
+
+    <% include ./partials/baseScripts.ejs %>
+  </body>
+</html>
