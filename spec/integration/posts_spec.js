@@ -1,4 +1,5 @@
 const request = require("request");
+
 const server = require("../../src/server");
 const base = "http://localhost:3000/topics";
 
@@ -12,7 +13,6 @@ describe("routes : posts", () => {
     this.post;
 
     sequelize.sync({ force: true }).then(res => {
-      //#1
       Topic.create({
         title: "Winter Games",
         description: "Post your Winter Games stories."
@@ -35,6 +35,7 @@ describe("routes : posts", () => {
       });
     });
   });
+
   describe("GET /topics/:topicId/posts/new", () => {
     it("should render a new post form", done => {
       request.get(`${base}/${this.topic.id}/posts/new`, (err, res, body) => {
@@ -71,6 +72,36 @@ describe("routes : posts", () => {
             done();
           });
       });
+    });
+  });
+
+  describe("GET /topics/:topicId/posts/:id", () => {
+    it("should render a view with the selected post", done => {
+      request.get(
+        `${base}/${this.topic.id}/posts/${this.post.id}`,
+        (err, res, body) => {
+          expect(err).toBeNull();
+          expect(body).toContain("Snowball Fighting");
+          done();
+        }
+      );
+    });
+  });
+
+  describe("POST /topics/:topicId/posts/:id/destroy", () => {
+    it("should delete the post with the associated ID", done => {
+      expect(this.post.id).toBe(1);
+
+      request.post(
+        `${base}/${this.topic.id}/posts/${this.post.id}/destroy`,
+        (err, res, body) => {
+          Post.findById(1).then(post => {
+            expect(err).toBeNull();
+            expect(post).toBeNull();
+            done();
+          });
+        }
+      );
     });
   });
 });
