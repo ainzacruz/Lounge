@@ -7,6 +7,7 @@
     <% include ../static/partials/navbar.ejs %>
 
     <main class="container">
+      <% include ../static/partials/messages.ejs %>
       <h1>New Topic</h1>
 
       <form action="/topics/create" method="post">
@@ -19,6 +20,9 @@
             aria-describedby="titleHelp"
             placeholder="Enter Title"
           />
+          <small class="text-muted" id="titleHelp"
+            >title must be 5 or more characters in length.</small
+          >
         </div>
         <div class="form-group">
           <label for="description">Description</label>
@@ -28,6 +32,9 @@
             name="description"
             placeholder="Enter Description"
           ></textarea>
+          <small class="text-muted" id="descriptionHelp"
+            >description must be 10 or more characters in length.</small
+          >
         </div>
         <button type="submit" class="btn btn-primary">Submit</button>
       </form>
