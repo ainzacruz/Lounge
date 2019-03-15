@@ -1,5 +1,4 @@
 const request = require("request");
-
 const server = require("../../src/server");
 const base = "http://localhost:3000/topics";
 
@@ -13,6 +12,7 @@ describe("routes : posts", () => {
     this.post;
 
     sequelize.sync({ force: true }).then(res => {
+      //#1
       Topic.create({
         title: "Winter Games",
         description: "Post your Winter Games stories."
@@ -35,7 +35,6 @@ describe("routes : posts", () => {
       });
     });
   });
-
   describe("GET /topics/:topicId/posts/new", () => {
     it("should render a new post form", done => {
       request.get(`${base}/${this.topic.id}/posts/new`, (err, res, body) => {
@@ -45,7 +44,6 @@ describe("routes : posts", () => {
       });
     });
   });
-
   describe("POST /topics/:topicId/posts/create", () => {
     it("should create a new post and redirect", done => {
       const options = {
@@ -73,7 +71,6 @@ describe("routes : posts", () => {
           });
       });
     });
-
     it("should not create a new post that fails validations", done => {
       const options = {
         url: `${base}/${this.topic.id}/posts/create`,
@@ -164,7 +161,8 @@ describe("routes : posts", () => {
       const options = {
         url: `${base}/${this.topic.id}/posts/${this.post.id}/update`,
         form: {
-          title: "Snowman Building Competition"
+          title: "Snowman Building Competition",
+          body: "i love watching them melt slowly"
         }
       };
       request.post(options, (err, res, body) => {
