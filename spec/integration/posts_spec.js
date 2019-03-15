@@ -104,4 +104,55 @@ describe("routes : posts", () => {
       );
     });
   });
+
+  describe("GET /topics/:topicId/posts/:id/edit", () => {
+    it("should render a view with an edit post form", done => {
+      request.get(
+        `${base}/${this.topic.id}/posts/${this.post.id}/edit`,
+        (err, res, body) => {
+          expect(err).toBeNull();
+          expect(body).toContain("Edit Post");
+          expect(body).toContain("Snowball Fighting");
+          done();
+        }
+      );
+    });
+  });
+
+  describe("POST /topics/:topicId/posts/:id/update", () => {
+    it("should return a status code 302", done => {
+      request.post(
+        {
+          url: `${base}/${this.topic.id}/posts/${this.post.id}/update`,
+          form: {
+            title: "Snowman Building Competition",
+            body: "I love watching them melt slowly."
+          }
+        },
+        (err, res, body) => {
+          expect(res.statusCode).toBe(302);
+          done();
+        }
+      );
+    });
+
+    it("should update the post with the given values", done => {
+      const options = {
+        url: `${base}/${this.topic.id}/posts/${this.post.id}/update`,
+        form: {
+          title: "Snowman Building Competition"
+        }
+      };
+      request.post(options, (err, res, body) => {
+        expect(err).toBeNull();
+
+        Post.findOne({
+          where: { id: this.post.id }
+        }).then(post => {
+          expect(post.title).toBe("Snowman Building Competition");
+          done();
+        });
+      });
+    });
+  });
 });
