@@ -109,4 +109,38 @@ describe("routes : topics", () => {
       });
     });
   });
+
+  describe("GET /topics/:id/edit", () => {
+    it("should render a view with an edit topic form", done => {
+      request.get(`${base}${this.topic.id}/edit`, (err, res, body) => {
+        expect(err).toBeNull();
+        expect(body).toContain("Edit Topic");
+        expect(body).toContain("JS Frameworks");
+        done();
+      });
+    });
+  });
+
+  describe("POST /topics/:id/update", () => {
+    it("should update the topic with the given values", done => {
+      const options = {
+        url: `${base}${this.topic.id}/update`,
+        form: {
+          title: "JavaScript Frameworks",
+          description: "There are a lot of them"
+        }
+      };
+      //#1
+      request.post(options, (err, res, body) => {
+        expect(err).toBeNull();
+        //#2
+        Topic.findOne({
+          where: { id: this.topic.id }
+        }).then(topic => {
+          expect(topic.title).toBe("JavaScript Frameworks");
+          done();
+        });
+      });
+    });
+  });
 });
