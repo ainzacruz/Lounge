@@ -3,8 +3,14 @@ module.exports = (sequelize, DataTypes) => {
   var Topic = sequelize.define(
     "Topic",
     {
-      title: DataTypes.STRING,
-      description: DataTypes.STRING
+      title: {
+        type: DataTypes.STRING,
+        allowNull: false
+      },
+      description: {
+        type: DataTypes.STRING,
+        allowNull: false
+      }
     },
     {}
   );
@@ -18,6 +24,10 @@ module.exports = (sequelize, DataTypes) => {
     Topic.hasMany(models.Rule, {
       foreignKey: "topicId",
       as: "rules"
+    });
+    Topic.hasMany(models.Post, {
+      foreignKey: "topicId",
+      as: "posts"
     });
   };
   return Topic;
