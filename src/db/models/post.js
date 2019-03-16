@@ -30,7 +30,7 @@ module.exports = (sequelize, DataTypes) => {
     });
 
     Post.belongsTo(models.User, {
-      foreightKey: "userId",
+      foreignKey: "userId",
       onDelete: "CASCADE"
     });
   };
