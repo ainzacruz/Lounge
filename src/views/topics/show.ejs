@@ -11,6 +11,7 @@
       <a href="/topics/<%= topic.id %>/edit" class="btn btn-warning">Edit</a>
       <% if(currentUser) { %>
         <a href="/topics/<%= topic.id %>/posts/new" class="btn btn-success">New Post</a>
+        <% if(currentUser.isAdmin()) { %>
       <% } %>
       <form
         style="display:initial"
@@ -19,6 +20,7 @@
       >
         <button type="submit" class="btn btn-danger">Delete</button>
       </form>
+      <% } %>
 
       <p><%= topic.description %></p>
       <hr>

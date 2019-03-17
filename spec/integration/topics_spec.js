@@ -27,9 +27,11 @@ describe("routes : topics", () => {
   });
 
   // context of admin user
+  // #1: define the admin user context
   describe("admin user performing CRUD actions for Topic", () => {
+    // #2: // before each test in admin user context, send an authentication request
+    // to a route we will create to mock an authentication request
     beforeEach(done => {
-      // before each suite in admin context
       User.create({
         email: "admin@example.com",
         password: "123456",
@@ -40,12 +42,11 @@ describe("routes : topics", () => {
             // mock authentication
             url: "http://localhost:3000/auth/fake",
             form: {
-              role: user.role,
+              role: user.role, // mock authenticate as admin user
               userId: user.id,
               email: user.email
             }
           },
-
           (err, res, body) => {
             done();
           }
@@ -166,29 +167,19 @@ describe("routes : topics", () => {
 
   // context of member user
   describe("member user performing CRUD actions for Topic", () => {
+    // #4: Send mock request and authenticate as a member user
     beforeEach(done => {
-      // before each suite in admin context
-      User.create({
-        email: "member@example.com",
-        password: "123456",
-        role: "member"
-      }).then(user => {
-        request.get(
-          {
-            // mock authentication
-            url: "http://localhost:3000/auth/fake",
-            form: {
-              role: user.role,
-              userId: user.id,
-              email: user.email
-            }
-          },
-
-          (err, res, body) => {
-            done();
+      request.get(
+        {
+          url: "http://localhost:3000/auth/fake",
+          form: {
+            role: "member"
           }
-        );
-      });
+        },
+        (err, res, body) => {
+          done();
+        }
+      );
     });
 
     describe("GET /topics", () => {
