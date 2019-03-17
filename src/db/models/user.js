@@ -13,6 +13,11 @@ module.exports = (sequelize, DataTypes) => {
       password: {
         type: DataTypes.STRING,
         allowNull: false
+      },
+      role: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        defaultValue: "member"
       }
     },
     {}
@@ -23,6 +28,9 @@ module.exports = (sequelize, DataTypes) => {
       foreignKey: "userId",
       as: "posts"
     });
+  };
+  User.prototype.isAdmin = function() {
+    return this.role === "admin";
   };
   return User;
 };
