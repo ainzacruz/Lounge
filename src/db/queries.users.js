@@ -12,12 +12,11 @@ module.exports = {
     return User.create({
       email: newUser.email,
       password: hashedPassword
-    })
-      .then(user => {
-        callback(null, user);
-      })
-      .catch(err => {
-        callback(err);
-      });
+    }).then(user => {
+      callback(null, user);
+    });
+    console.log(err).catch(err => {
+      callback(err);
+    });
   }
 };
