@@ -1,0 +1,17 @@
+<!-- #1 -->
+<div class="pull-left" style="width: 40px;text-align: center;">
+  <div>
+    <!-- #2 -->
+    <a href="/topics/<%= post.topicId %>/posts/<%= post.id %>/votes/upvote"
+      >&#9650;</a
+    >
+  </div>
+  <!-- #3 -->
+  <b><%= post.getPoints() %></b>
+  <div>
+    <!-- #4 -->
+    <a href="/topics/<%= post.topicId %>/posts/<%= post.id %>/votes/downvote"
+      >&#9660;</a
+    >
+  </div>
+</div>
