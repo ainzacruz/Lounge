@@ -1,17 +1,13 @@
 "use strict";
 module.exports = (sequelize, DataTypes) => {
-  var Post = sequelize.define(
-    "Post",
+  var Comment = sequelize.define(
+    "Comment",
     {
-      title: {
-        type: DataTypes.STRING,
-        allowNull: false
-      },
       body: {
         type: DataTypes.STRING,
         allowNull: false
       },
-      topicId: {
+      postId: {
         type: DataTypes.INTEGER,
         allowNull: false
       },
@@ -22,22 +18,17 @@ module.exports = (sequelize, DataTypes) => {
     },
     {}
   );
-  Post.associate = function(models) {
+  Comment.associate = function(models) {
     // associations can be defined here
-    Post.belongsTo(models.Topic, {
-      foreignKey: "topicId",
+    Comment.belongsTo(models.Post, {
+      foreignKey: "postId",
       onDelete: "CASCADE"
     });
 
-    Post.belongsTo(models.User, {
+    Comment.belongsTo(models.User, {
       foreignKey: "userId",
       onDelete: "CASCADE"
     });
-
-    Post.hasMany(models.Comment, {
-      foreignKey: "postId",
-      as: "comments"
-    });
   };
-  return Post;
+  return Comment;
 };
