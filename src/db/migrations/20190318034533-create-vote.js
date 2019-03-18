@@ -9,7 +9,34 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       value: {
-        type: Sequelize.INTEGER
+        // #1
+        type: Sequelize.INTEGER,
+        allowNull: false,
+        validate: {
+          isIn: [[-1, 1]]
+        }
+      },
+      // #2
+      postId: {
+        type: Sequelize.INTEGER,
+        onDelete: "CASCADE",
+        allowNull: false,
+        references: {
+          model: "Posts",
+          key: "id",
+          as: "postId"
+        }
+      },
+      // #3
+      userId: {
+        type: Sequelize.INTEGER,
+        onDelete: "CASCADE",
+        allowNull: false,
+        references: {
+          model: "Users",
+          key: "id",
+          as: "userId"
+        }
       },
       createdAt: {
         allowNull: false,
