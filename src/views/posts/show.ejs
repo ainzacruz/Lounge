@@ -24,6 +24,18 @@
         <button type="submit" class="btn btn-danger">Delete</button>
       </form>
       <p><%= post.body %></p>
+      <section id="comment-form">
+        <!-- #1 -->
+        <% if(currentUser) { %> <% include ../comments/new.ejs %> <% } %>
+      </section>
+
+      <!-- #2 -->
+      <section id="comment-list">
+        <% if(post.comments) { %> <% post.comments.forEach((comment) => { %>
+
+        <!-- #3 -->
+        <%- include("../comments/show.ejs", {comment}) %> <% }) %> <% } %>
+      </section>
     </main>
 
     <% include ../static/partials/baseScripts.ejs %>

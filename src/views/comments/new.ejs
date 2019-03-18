@@ -1,0 +1,20 @@
+<!-- #1 -->
+<form
+  style="width:50%"
+  action="/topics/<%= post.topicId %>/posts/<%= post.id %>/comments/create"
+  method="post"
+>
+  <div class="form-group">
+    <label for="body">New Comment</label>
+    <textarea
+      class="form-control"
+      name="body"
+      aria-describedby="bodyHelp"
+      placeholder="Enter comment"
+    ></textarea>
+    <small class="text-muted" id="bodyHelp"
+      >comment must be 5 or more characters in length.</small
+    >
+  </div>
+  <button type="submit" class="btn btn-primary">Submit</button>
+</form>
