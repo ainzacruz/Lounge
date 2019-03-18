@@ -51,6 +51,14 @@ module.exports = (sequelize, DataTypes) => {
       });
     });
 
+    Post.afterCreate((post, callback) => {
+      return models.Vote.create({
+        value: 1,
+        userId: post.userId,
+        postId: post.id
+      });
+    });
+
     Post.hasMany(models.Vote, {
       foreignKey: "postId",
       as: "votes"
