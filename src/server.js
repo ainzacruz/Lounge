@@ -2,6 +2,7 @@ const app = require("./app"); //import the initialized express application
 const http = require("http"); //import the HTTP module
 // const server = http.createServer(app); //creates our server
 
+//allows environment to set the port that our application will use if given, otherwise select own
 const port = normalizePort(process.env.PORT || "3000");
 app.set("port", port);
 
