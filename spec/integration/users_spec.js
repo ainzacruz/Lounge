@@ -6,6 +6,7 @@ const sequelize = require("../../src/db/models/index").sequelize;
 const Topic = require("../../src/db/models").Topic;
 const Post = require("../../src/db/models").Post;
 const Comment = require("../../src/db/models").Comment;
+const Favorite = require("../../src/db/models").Favorite;
 
 describe("routes : users", () => {
   beforeEach(done => {
@@ -98,6 +99,9 @@ describe("routes : users", () => {
       this.user;
       this.post;
       this.comment;
+      this.favoriteUser;
+      this.favoritePost;
+      this.favorite;
 
       User.create({
         email: "starman@tesla.com",
@@ -114,6 +118,11 @@ describe("routes : users", () => {
                 title: "Snowball Fighting",
                 body: "So much snow!",
                 userId: this.user.id
+              },
+              {
+                title: "Favorite Something",
+                body: "Something Something",
+                userId: this.user.id
               }
             ]
           },
@@ -125,6 +134,7 @@ describe("routes : users", () => {
           }
         ).then(res => {
           this.post = res.posts[0];
+          this.favoritePost = res.posts[1];
 
           Comment.create({
             body: "This comment is alright.",
@@ -132,7 +142,13 @@ describe("routes : users", () => {
             userId: this.user.id
           }).then(res => {
             this.comment = res;
-            done();
+            Favorite.create({
+              postId: this.favoritePost.id,
+              userId: this.user.id
+            }).then(res => {
+              this.favorite = res;
+              done();
+            });
           });
         });
       });
@@ -144,6 +160,7 @@ describe("routes : users", () => {
         // #5
         expect(body).toContain("Snowball Fighting");
         expect(body).toContain("This comment is alright.");
+        expect(body).toContain("Favorite Something");
         done();
       });
     });
