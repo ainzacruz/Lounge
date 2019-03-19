@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <% include ../static/partials/head.ejs %>
+  </head>
+  <body>
+    <% include ../static/partials/navbar.ejs %>
+
+    <main class="container">
+      <% include ../static/partials/messages.ejs %>
+
+      <!-- #1 -->
+      <h1><%= `${user.email}'s profile` %></h1>
+
+      <hr />
+
+      <h2>Latest Posts</h2>
+
+      <ul class="list-unstyled">
+        <!-- #2 -->
+        <% if(posts) { %> <% posts.forEach((post) => { %>
+        <!-- #3 -->
+        <li>
+          <a href="/topics/<%= post.topicId %>/posts/<%= post.id %>">
+            <%= post.title %>
+          </a>
+        </li>
+        <% }) %> <% } %>
+      </ul>
+      <hr />
+
+      <h2>Latest Comments</h2>
+
+      <ul class="list-unstyled">
+        <!-- #4 -->
+        <% if(comments) { %> <% comments.forEach((comment) => { %>
+
+        <!-- #5 -->
+        <li>
+          <span>Post: </span
+          ><a
+            href="/topics/<%= comment.Post.topicId %>/posts/<%= comment.Post.id %>"
+          >
+            <%= comment.Post.title %>
+          </a>
+          <p>Comment: <%= comment.body %></p>
+        </li>
+        <hr />
+        <% }) %> <% } %>
+      </ul>
+    </main>
+
+    <% include ../static/partials/baseScripts.ejs %>
+  </body>
+</html>
