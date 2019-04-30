@@ -1,6 +1,4 @@
-<!-- #1 -->
 <% if(messages.error || messages.notice) { %>
-<!-- #2 -->
 <div
   class="alert alert-<%= messages.error ? 'danger' : 'warning' %> alert-dismissible fade show"
   role="alert"
@@ -10,7 +8,6 @@
   </button>
   <% if(messages.error) { %> Validation errors:
   <ul>
-    <!-- #3 -->
     <% messages.error.forEach((err) => { %>
     <li><%= `${err.param} ${err.msg}` %></li>
     <% }) %>

@@ -9,14 +9,12 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       value: {
-        // #1
         type: Sequelize.INTEGER,
         allowNull: false,
         validate: {
           isIn: [[-1, 1]]
         }
       },
-      // #2
       postId: {
         type: Sequelize.INTEGER,
         onDelete: "CASCADE",
@@ -27,7 +25,6 @@ module.exports = {
           as: "postId"
         }
       },
-      // #3
       userId: {
         type: Sequelize.INTEGER,
         onDelete: "CASCADE",

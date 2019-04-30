@@ -21,13 +21,16 @@ module.exports = (sequelize, DataTypes) => {
       as: "banners"
     });
 
-    Topic.hasMany(models.Rule, {
-      foreignKey: "topicId",
-      as: "rules"
-    });
     Topic.hasMany(models.Post, {
       foreignKey: "topicId",
       as: "posts"
+    });
+
+    Topic.addScope("lastFiveTopics", () => {
+      return {
+        limit: 5,
+        order: [["createdAt", "DESC"]]
+      };
     });
   };
   return Topic;

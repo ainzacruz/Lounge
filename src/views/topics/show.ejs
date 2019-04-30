@@ -1,45 +1,71 @@
 <!DOCTYPE html>
-<html>
+<html lang="en" dir="ltr">
   <head>
     <% include ../static/partials/head.ejs %>
   </head>
   <body>
-    <% include ../static/partials/navbar.ejs %>
+    <% include ../static/partials/navbar.ejs %> <% include
+    ../static/partials/messages.ejs %>
 
     <main class="container">
-      <h1><%= topic.title %></h1>
-      <a href="/topics/<%= topic.id %>/edit" class="btn btn-warning">Edit</a>
-      <% if(currentUser) { %>
-        <a href="/topics/<%= topic.id %>/posts/new" class="btn btn-success">New Post</a>
-        <% if(currentUser.isAdmin()) { %>
-      <% } %>
-      <form
-        style="display:initial"
-        action="/topics/<%= topic.id %>/destroy"
-        method="post"
-      >
-        <button type="submit" class="btn btn-danger">Delete</button>
-      </form>
-      <% } %>
+      <div class="row">
+        <div class="col-12">
+          <h1 class="display-1"><%= topic.title %></h1>
+          <p class="lead"><%= topic.description %></p>
+        </div>
+      </div>
+      <hr />
 
-      <p><%= topic.description %></p>
-      <hr>
+      <div class="row">
+        <div class="col-12 text-center">
+          <h1 class="display-4">Posts</h1>
+          <p class="lead">
+            Want to create a new post? Sign up or sign in and get started!
+          </p>
+          <a class="btn btn-warning" href="#">Sign Up</a>
+          <a class="btn btn-warning" href="#">Sign In</a>
+          <% if(currentUser) { %>
+          <a href="/topics/<%= topic.id %>/posts/new" class="btn btn-success"
+            >New Post</a
+          >
+          <% if(currentUser.isAdmin()) { %>
+          <a href="/topics/<%= topic.id %>/edit" class="btn btn-warning"
+            >Edit</a
+          >
+          <form
+            style="display:initial"
+            action="/topics/<%= topic.id %>/destroy"
+            method="post"
+          >
+            <button type="submit" class="btn btn-danger">Delete</button>
+          </form>
+          <% } %> <% } %>
+        </div>
+      </div>
 
-      <h1>Posts</h1>
-
-      <ul class="list-group">
-        <% topic.posts.forEach((post) => { %>
-        <li class="list-group-item">
-          <a href="/topics/<%= topic.id %>/posts/<%= post.id %>">
-            <%= post.title %>
-          </a>
-        </li>
-        <% }) %>
-      </ul>
-    </hr>
-      </main>
+      <div class="row">
+        <div class="col-12">
+          <ul class="list-group">
+            <li class="list-group-item">
+              <span>Title</span>
+              <span class="float-right">Last Updated</span>
+            </li>
+            <% topic.posts.forEach((post) => { %>
+            <li class="list-group-item">
+              <a href="/topics/<%= topic.id %>/posts/<%= post.id %>"
+                ><%= post.title %></a
+              >
+              <span class="float-right"
+                ><%= post.updatedAt.toString().substring(4, 15) %></span
+              >
+              <div><small><%= post.comments.length %> Comments</small></div>
+            </li>
+            <% }) %>
+          </ul>
+        </div>
+      </div>
     </main>
 
-    <% include ../static/partials/baseScripts.ejs %>
+    <%include ../static/partials/baseScripts.ejs %>
   </body>
 </html>

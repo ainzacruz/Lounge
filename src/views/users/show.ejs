@@ -9,7 +9,6 @@
     <main class="container">
       <% include ../static/partials/messages.ejs %>
 
-      <!-- #1 -->
       <h1><%= `${user.email}'s profile` %></h1>
 
       <hr />
@@ -17,9 +16,7 @@
       <h2>Latest Posts</h2>
 
       <ul class="list-unstyled">
-        <!-- #2 -->
         <% if(posts) { %> <% posts.forEach((post) => { %>
-        <!-- #3 -->
         <li>
           <a href="/topics/<%= post.topicId %>/posts/<%= post.id %>">
             <%= post.title %>
@@ -29,13 +26,24 @@
       </ul>
       <hr />
 
+      <h2>Favorited Posts</h2>
+
+      <ul class="list-unstyled">
+        <% if(favoritePosts) { %> <% favoritePosts.forEach((fav) => { %>
+        <li>
+          <a href="/topics/<%= fav.post.topicId %>/posts/<%= fav.post.id %>">
+            <%= fav.post.title %>
+          </a>
+        </li>
+        <% }) %> <% } %>
+      </ul>
+
+      <hr />
+
       <h2>Latest Comments</h2>
 
       <ul class="list-unstyled">
-        <!-- #4 -->
         <% if(comments) { %> <% comments.forEach((comment) => { %>
-
-        <!-- #5 -->
         <li>
           <span>Post: </span
           ><a
@@ -47,21 +55,6 @@
         </li>
         <hr />
         <% }) %> <% } %>
-      </ul>
-      <h2>Favorited Posts</h2>
-      <ul class="list-unstyled">
-        <% if(favorites) { %> <% favorites.forEach((favorite) => { %>
-        <li>
-          <span>Post: </span
-          ><a
-            href="/topics/<%= favorite.Post.topicId %>/posts/<%= favorite.Post.id %>"
-          >
-            <%= favorite.Post.title %>
-          </a>
-        </li>
-        <% }) %> <% } else { %>
-        <h3>No Favorites</h3>
-        <% } %>
       </ul>
     </main>
 

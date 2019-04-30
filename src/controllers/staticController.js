@@ -1,8 +1,14 @@
+const Topic = require("../db/models").Topic;
+
 module.exports = {
   index(req, res, next) {
-    res.render("static/index", { title: "Welcome to foundit!" });
-  },
-  about(req, res, next) {
-    res.render("static/about", { title: "Learn about Us" });
+    Topic.scope({ method: ["lastFiveTopics"] })
+      .all()
+      .then(topics => {
+        res.render("static/index", { title: "Welcome to foundit", topics });
+      })
+      .catch(err => {
+        console.log(err);
+      });
   }
 };

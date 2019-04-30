@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="en" dir="ltr">
   <head>
     <% include ../static/partials/head.ejs %>
   </head>
@@ -25,9 +25,6 @@
             aria-describedby="titleHelp"
             placeholder="Enter Title"
           />
-          <small class="text-muted" id="titleHelp"
-            >title must be 2 or more characters in length.</small
-          >
         </div>
         <div class="form-group">
           <label for="body">Post body</label>
@@ -38,9 +35,6 @@
             placeholder="Enter Description"
           >
 <%= post.body %></textarea
-          >
-          <small class="text-muted" id="bodyHelp"
-            >body must be 10 or more characters in length.</small
           >
         </div>
         <button type="submit" class="btn btn-primary">Update</button>

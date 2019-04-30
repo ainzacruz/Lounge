@@ -1,26 +1,20 @@
 module.exports = class ApplicationPolicy {
-  // #1
   constructor(user, record) {
     this.user = user;
     this.record = record;
   }
 
-  // #2
   _isOwner() {
-    return this.record && this.record.userId == this.user.id;
-  }
-
-  _isMember() {
-    return this.user && this.user.role == "member";
+    // THIS.RECORD.USERID AND THIS.USER.ID ARE DIFFERENT NUMBERS EVEN THOUGH THEY SHOULD BE THE SAME
+    return this.user && this.record && this.record.userId == this.user.id;
   }
 
   _isAdmin() {
     return this.user && this.user.role == "admin";
   }
 
-  // #3
   new() {
-    return !!this.user;
+    return this.user != null;
   }
 
   create() {
@@ -31,7 +25,6 @@ module.exports = class ApplicationPolicy {
     return true;
   }
 
-  // #4
   edit() {
     return this.new() && this.record && (this._isOwner() || this._isAdmin());
   }
@@ -40,7 +33,6 @@ module.exports = class ApplicationPolicy {
     return this.edit();
   }
 
-  // #5
   destroy() {
     return this.update();
   }

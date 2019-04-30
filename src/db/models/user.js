@@ -22,6 +22,7 @@ module.exports = (sequelize, DataTypes) => {
     },
     {}
   );
+
   User.associate = function(models) {
     // associations can be defined here
     User.hasMany(models.Post, {
@@ -34,18 +35,24 @@ module.exports = (sequelize, DataTypes) => {
       as: "comments"
     });
 
-    User.hasMany(models.Favorite, {
-      foreignKey: "userId",
-      as: "favorites"
-    });
-
     User.hasMany(models.Vote, {
       foreignKey: "userId",
       as: "votes"
     });
+
+    User.hasMany(models.Favorite, {
+      foreignKey: "userId",
+      as: "favorites"
+    });
   };
+
   User.prototype.isAdmin = function() {
     return this.role === "admin";
   };
+
+  User.prototype.isOwner = function(post) {
+    return this.id == post.userId;
+  };
+
   return User;
 };

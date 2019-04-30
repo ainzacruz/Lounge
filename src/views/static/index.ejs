@@ -1,47 +1,83 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" dir="ltr">
   <head>
     <% include ./partials/head.ejs %>
   </head>
   <body>
-    <!-- Navigation -->
-    <% include ./partials/navbar.ejs %>
+    <!-- Navigation  -->
+    <% include ./partials/navbar.ejs %> <% include
+    ../static/partials/messages.ejs %>
 
-    <!-- Page Content -->
-    <main class="container">
-      <% include ../static/partials/messages.ejs %>
-
-      <!-- Jumbotron Header -->
-      <header class="jumbotron my-4">
+    <!-- Jumbotron Header -->
+    <div class="jumbotron jumbotron-fluid">
+      <div class="container">
         <h1 class="display-3">Welcome to foundit</h1>
         <p class="lead">An application for users to share information.</p>
         <a href="/users/sign_up" class="btn btn-primary btn-lg">Sign up</a>
-        <a href="/about" class="btn btn-primary btn-lg">About Us</a>
-      </header>
+      </div>
+    </div>
 
+    <!-- Page Content -->
+    <main class="container-fluid">
       <!-- Page Features -->
       <section class="row text-center">
         <section class="col-lg-4">
+          <i class="fas fa-pen fa-7x"></i>
           <h4 class="card-title">Post</h4>
           <p class="card-text">
             Share your thoughts about subjects that are important to you.
           </p>
-        </section>
-
-        <section class="col-lg-4">
-          <h4 class="card-title">Comment</h4>
-          <p class="card-text">
-            Your opinion counts! But you have to make yourself heard first!
+          <p>
+            <a class="btn btn-secondary" href="#" role="button"
+              >View details »</a
+            >
           </p>
         </section>
 
         <section class="col-lg-4">
+          <i class="fas fa-comment fa-7x"></i>
+          <h4 class="card-title">Comment</h4>
+          <p class="card-text">
+            Your opinon counts! But you have to make yourself heard first!
+          </p>
+          <p>
+            <a class="btn btn-secondary" href="#" role="button"
+              >View details »</a
+            >
+          </p>
+        </section>
+
+        <section class="col-lg-4">
+          <i class="fas fa-graduation-cap fa-7x"></i>
           <h4 class="card-title">Stay Informed</h4>
           <p class="card-text">
-            See the most active topics as well as trending subjects every day!
+            SEe the most active topics as well as trending subjects every day!
+          </p>
+          <p>
+            <a class="btn btn-secondary" href="#" role="button"
+              >View details »</a
+            >
           </p>
         </section>
       </section>
+      <!-- Last Five Topics -->
+      <div class="container">
+        <h1 class="display-4">Most Recent Topics</h1>
+        <div class="list-group">
+          <% topics.forEach((topic) => { %>
+          <a
+            href="/topics/<%= topic.id %>"
+            class="list-group-item list-group-item-action flex-column align-items-start"
+          >
+            <div class="d-flex w-100 justify-content-between">
+              <h5 class="mb-1"><%= topic.title %></h5>
+              <small><%= topic.updatedAt.toString().substring(4, 15) %></small>
+            </div>
+            <p class="mb-1"><%= topic.description %></p>
+          </a>
+          <% }) %>
+        </div>
+      </div>
       <!-- /.row -->
     </main>
     <!-- /.container -->

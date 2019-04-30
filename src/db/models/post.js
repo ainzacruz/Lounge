@@ -39,37 +39,41 @@ module.exports = (sequelize, DataTypes) => {
       as: "comments"
     });
 
+    Post.hasMany(models.Vote, {
+      foreignKey: "postId",
+      as: "votes"
+    });
+
     Post.hasMany(models.Favorite, {
       foreignKey: "postId",
       as: "favorites"
     });
 
     Post.afterCreate((post, callback) => {
-      return models.Favorite.create({
-        userId: post.userId,
-        postId: post.id
-      });
+      return (
+        models.Favorite.create({
+          userId: post.userId,
+          postId: post.id
+        }),
+        models.Vote.create({
+          value: 1,
+          userId: post.userId,
+          postId: post.id
+        })
+      );
     });
 
-    Post.afterCreate((post, callback) => {
-      return models.Vote.create({
-        value: 1,
-        userId: post.userId,
-        postId: post.id
-      });
-    });
-
-    Post.hasMany(models.Vote, {
-      foreignKey: "postId",
-      as: "votes"
+    Post.addScope("lastFiveFor", userId => {
+      return {
+        where: { userId: userId },
+        limit: 5,
+        order: [["createdAt", "DESC"]]
+      };
     });
   };
 
   Post.prototype.getPoints = function() {
-    // #1
     if (this.votes.length === 0) return 0;
-
-    // #2
     return this.votes
       .map(v => {
         return v.value;
@@ -78,24 +82,6 @@ module.exports = (sequelize, DataTypes) => {
         return prev + next;
       });
   };
-  Post.prototype.hasUpvoteFor = function(thisUserId) {
-    let hasVote = false;
-    this.votes.forEach(vote => {
-      if (vote.userId === thisUserId && vote.value === 1) {
-        hasVote = true;
-      }
-    });
-    return hasVote;
-  };
-  Post.prototype.hasDownvoteFor = function(thisUserId) {
-    let hasVote = false;
-    this.votes.forEach(vote => {
-      if (vote.userId === thisUserId && vote.value === -1) {
-        hasVote = true;
-      }
-    });
-    return hasVote;
-  };
 
   Post.prototype.getFavoriteFor = function(userId) {
     return this.favorites.find(favorite => {
@@ -103,15 +89,5 @@ module.exports = (sequelize, DataTypes) => {
     });
   };
 
-  // #1
-  Post.addScope("lastFiveFor", userId => {
-    // #2
-    return {
-      where: { userId: userId },
-      // #3
-      limit: 5,
-      order: [["createdAt", "DESC"]]
-    };
-  });
   return Post;
 };

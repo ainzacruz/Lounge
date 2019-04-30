@@ -1,4 +1,3 @@
-<!-- #1 -->
 <% if(comment) { %>
 <div style="width: 50%">
   <hr />
@@ -6,11 +5,8 @@
     <%= comment.body %>
   </p>
   <small class="card-subtitle mb-2 text-muted">
-    <!-- #2 -->
     sent by <%= comment.User.email %> on <%= comment.createdAt %>
   </small>
-
-  <!-- #3 -->
   <% if(currentUser && currentUser.id === comment.userId ||
   currentUser.isAdmin()) { %>
   <form
@@ -18,9 +14,7 @@
     action="/topics/<%= post.topicId %>/posts/<%= post.id %>/comments/<%= comment.id %>/destroy"
     method="post"
   >
-    <button type="submit" class="btn btn btn-sm btn-outline-danger">
-      Delete
-    </button>
+    <button type="submit" class="btn btn-sm btn0outline-danger">Delete</button>
   </form>
   <% } %>
   <hr />
