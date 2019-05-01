@@ -21,13 +21,13 @@ module.exports = {
         if (req.user) {
           userQueries.getUser(req.user.id, (err, result) => {
             res.render("static/index", {
-              title: "Welcome to Bloccit",
+              title: "Welcome to the Lounge",
               posts,
               result
             });
           });
         } else {
-          res.render("static/index", { title: "Welcome to Bloccit", posts });
+          res.render("static/index", { title: "Welcome to the Lounge", posts });
         }
       })
       .catch(err => {
