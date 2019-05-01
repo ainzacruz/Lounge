@@ -15,7 +15,7 @@
         action="/topics/<%= post.topicId %>/posts/<%= post.id %>/update"
         method="post"
       >
-        <div class="form-group">
+        <div class="form-group post-title">
           <label for="title">Post title</label>
           <input
             value="<%= post.title %>"
@@ -26,7 +26,19 @@
             placeholder="Enter Title"
           />
         </div>
-        <div class="form-group">
+        <div class="form-group post-url">
+          <label for="img">Post Image URL</label>
+          <input
+            value="<%= post.img %>"
+            type="text"
+            class="form-control"
+            name="img"
+            aria-describedby="imgHelp"
+            placeholder="May leave blank"
+          />
+          <small class="text-muted" id="titleHelp">enter url</small>
+        </div>
+        <div class="form-group post-description">
           <label for="body">Post body</label>
           <textarea
             rows="4"

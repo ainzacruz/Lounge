@@ -1,0 +1,108 @@
+<ul
+  class="nav nav-tabs"
+  id="myTab"
+  role="tablist"
+  style="background-color: white;"
+>
+  <li class="nav-item">
+    <a
+      class="nav-link active"
+      id="favorites-tab"
+      data-toggle="tab"
+      href="#favorites"
+      role="tab"
+      aria-controls="favorites"
+      aria-selected="true"
+      >My Favorites</a
+    >
+  </li>
+  <li class="nav-item">
+    <a
+      class="nav-link"
+      id="topics-tab"
+      data-toggle="tab"
+      href="#topics"
+      role="tab"
+      aria-controls="topics"
+      aria-selected="true"
+      >My Topics</a
+    >
+  </li>
+  <li class="nav-item">
+    <a
+      class="nav-link"
+      id="posts-tab"
+      data-toggle="tab"
+      href="#posts"
+      role="tab"
+      aria-controls="posts"
+      aria-selected="false"
+      >My Posts</a
+    >
+  </li>
+</ul>
+<div class="tab-content" id="myTabContent" style="background-color:white;">
+  <div
+    class="tab-pane fade show active"
+    id="favorites"
+    role="tabpanel"
+    aria-labelledby="favorites-tab"
+  >
+    <ul class="list-group">
+      <% if(result.favoritePosts.length !== 0) { %> <%
+      result.favoritePosts.forEach((fav) => { %>
+      <li class="list-group-item">
+        <a href="/topics/<%= fav.post.topicId %>/posts/<%= fav.post.id %>">
+          <%= fav.post.title %>
+        </a>
+      </li>
+      <% }) %> <% } else { %>
+      <li class="list-group-item">
+        <p>Nothing here...</p>
+      </li>
+      <% } %>
+    </ul>
+  </div>
+  <div
+    class="tab-pane fade"
+    id="topics"
+    role="tabpanel"
+    aria-labelledby="topics-tab"
+  >
+    <ul class="list-group">
+      <% if(result.topics.length !== 0) { %> <% result.topics.forEach((topic) =>
+      { %>
+      <li class="list-group-item">
+        <a href="/topics/<%= topic.id %>">
+          <%= topic.title %>
+        </a>
+      </li>
+      <% }) %> <% } else { %>
+      <li class="list-group-item">
+        <p>Nothing here...</p>
+      </li>
+      <% } %>
+    </ul>
+  </div>
+  <div
+    class="tab-pane fade"
+    id="posts"
+    role="tabpanel"
+    aria-labelledby="posts-tab"
+  >
+    <ul class="list-group">
+      <% if(result.posts.length !== 0) { %> <% result.posts.forEach((post) => {
+      %>
+      <li class="list-group-item">
+        <a href="/topics/<%= post.topicId %>/posts/<%= post.id %>">
+          <%= post.title %>
+        </a>
+      </li>
+      <% }) %> <% } else { %>
+      <li class="list-group-item">
+        <p>Nothing here...</p>
+      </li>
+      <% } %>
+    </ul>
+  </div>
+</div>

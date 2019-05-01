@@ -2,6 +2,7 @@ const Topic = require("./models").Topic;
 const Post = require("./models").Post;
 const Comment = require("./models").Comment;
 const Authorizer = require("../policies/topic");
+const User = require("./models").User;
 
 module.exports = {
   getAllTopics(callback) {
@@ -23,7 +24,9 @@ module.exports = {
   addTopic(newTopic, callback) {
     return Topic.create({
       title: newTopic.title,
-      description: newTopic.description
+      description: newTopic.description,
+      img: newTopic.img,
+      userId: newTopic.userId
     })
       .then(topic => {
         callback(null, topic);
@@ -44,6 +47,9 @@ module.exports = {
               as: "comments"
             }
           ]
+        },
+        {
+          model: User
         }
       ]
     })

@@ -4,68 +4,124 @@
     <% include ../static/partials/head.ejs %>
   </head>
   <body>
-    <% include ../static/partials/navbar.ejs %> <% include
-    ../static/partials/messages.ejs %>
+    <% include ../static/partials/navbar.ejs %>
+    <% include ../static/partials/messages.ejs %>
 
-    <main class="container">
+    <main class="container-fluid">
       <div class="row">
-        <div class="col-12">
-          <h1 class="display-1"><%= topic.title %></h1>
-          <p class="lead"><%= topic.description %></p>
-        </div>
-      </div>
-      <hr />
 
-      <div class="row">
-        <div class="col-12 text-center">
-          <h1 class="display-4">Posts</h1>
-          <p class="lead">
-            Want to create a new post? Sign up or sign in and get started!
-          </p>
-          <a class="btn btn-warning" href="#">Sign Up</a>
-          <a class="btn btn-warning" href="#">Sign In</a>
-          <% if(currentUser) { %>
-          <a href="/topics/<%= topic.id %>/posts/new" class="btn btn-success"
-            >New Post</a
-          >
-          <% if(currentUser.isAdmin()) { %>
-          <a href="/topics/<%= topic.id %>/edit" class="btn btn-warning"
-            >Edit</a
-          >
-          <form
-            style="display:initial"
-            action="/topics/<%= topic.id %>/destroy"
-            method="post"
-          >
-            <button type="submit" class="btn btn-danger">Delete</button>
-          </form>
-          <% } %> <% } %>
-        </div>
-      </div>
+        <!-- MAIN START -->
+        <div class="col-lg-9 col-md-12">
+          <div class="row">
+            <div class="col-12">
+              <div style="display: flex; align-items:center;">
+                <h1 class="display-4">
+                  <%= topic.title %>
+                </h1>
+              </div>
+              <p class="lead" id="post-description"><%= topic.description %></p>
+            </div>
+          </div>
 
-      <div class="row">
-        <div class="col-12">
-          <ul class="list-group">
-            <li class="list-group-item">
-              <span>Title</span>
-              <span class="float-right">Last Updated</span>
-            </li>
-            <% topic.posts.forEach((post) => { %>
-            <li class="list-group-item">
-              <a href="/topics/<%= topic.id %>/posts/<%= post.id %>"
-                ><%= post.title %></a
-              >
-              <span class="float-right"
-                ><%= post.updatedAt.toString().substring(4, 15) %></span
-              >
-              <div><small><%= post.comments.length %> Comments</small></div>
-            </li>
-            <% }) %>
-          </ul>
+          <!-- Responsive Sidebar -->
+          <div class="col-12 d-md-block d-lg-none" style="margin-bottom:25px;">
+            <div class="row">
+              <div class="col-12">
+                <div class="card">
+                  <div class="card-body">
+                    <% if(topic.img) { %>
+                      <img src="<%= topic.img %>" class="figure-img img-fluid rounded card-image" alt="Topic Profile Picture">
+                    <% } %>
+                    <p class="card-subtitle mb-2 text-muted text-center">Created At: <%= topic.createdAt.toString().substring(4, 15) %></p>
+                    <% if(topic.posts.length !== 0) { %>
+                      <p class="card-subtitle mb-2 text-muted text-center">Last Post At: <%= topic.posts[topic.posts.length -1].updatedAt.toString().substring(4, 15) %></p>
+                    <% } %>
+                    <p class="card-subtitle mb-2 text-muted text-center">By: <a href="/users/<%= topic.userid %>"><%= topic.User.email %></a></p>
+                    <% if(currentUser) { %>
+                      <a class="btn btn-primary" href="/users/<%= currentUser.id %>">View my profile</a>
+                      <span><a href="/topics/<%= topic.id %>/posts/new" class="btn btn-success">New Post</a></span>
+                      <% if(currentUser.role === 'admin' || currentUser.id === topic.User.id) { %>
+                        <a href="/topics/<%= topic.id %>/edit" class="btn btn-warning">Edit</a>
+                        <form style="display:initial" action="/topics/<%= topic.id %>/destroy" method="post">
+                          <button type="submit" class="btn btn-danger">Delete</button>
+                        </form>
+                      <% } %>
+                    <% } else { %>
+                      <% include ../static/partials/signupModal.ejs %>
+                      <% include ../static/partials/signinTrigger.ejs %>
+                    <% } %>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- SIDEBAR SMALL END -->
+
+          <div class="row">
+            <div class="col-12">
+              <ul id="topic-show-posts" class="list-group">
+                <p class="mb-2 text-muted"><%= topic.posts.length %> Posts</small>
+                <li class="list-group-item">
+                  <span>Title</span>
+                  <span class="float-right">Last Updated</span>
+                </li>
+                <% topic.posts.forEach((post) => { %>
+                  <li class="list-group-item">
+                    <a href="/topics/<%= topic.id %>/posts/<%= post.id %>"><%= post.title %></a>
+                    <span class="float-right"><%= post.updatedAt.toString().substring(4, 15) %></span>
+                    <div><small><%= post.comments.length %> Comments</small></div>
+                  </li>
+                <% }) %>
+              </ul>
+            </div>
+          </div>
         </div>
+        <!-- MAIN END -->
+
+        <!-- SIDEBAR START -->
+        <div class="col-3 d-none d-lg-block">
+          <div class="row">
+            <div class="col-12">
+              <div class="card">
+                <div class="card-body">
+                  <% if(topic.img) { %>
+                    <img src="<%= topic.img %>" class="figure-img img-fluid rounded card-image" alt="Topic Profile Picture">
+                  <% } %>
+                  <p class="card-subtitle mb-2 text-muted text-center">Created At: <%= topic.createdAt.toString().substring(4, 15) %></p>
+                  <% if(topic.posts.length !== 0) { %>
+                    <p class="card-subtitle mb-2 text-muted text-center">Last Post At: <%= topic.posts[topic.posts.length -1].updatedAt.toString().substring(4, 15) %></p>
+                  <% } %>
+                  <p class="card-subtitle mb-2 text-muted text-center">By: <a href="/users/<%= topic.userId %>"><%= topic.User.email %></a></p>
+                  <% if(currentUser) { %>
+                    <span><a href="/topics/<%= topic.id %>/posts/new" class="btn btn-success">New Post</a></span>
+                    <% if(currentUser.role === 'admin' || currentUser.id === topic.User.id) { %>
+                      <a href="/topics/<%= topic.id %>/edit" class="btn btn-warning">Edit</a>
+                      <form style="display:initial" action="/topics/<%= topic.id %>/destroy" method="post">
+                        <button type="submit" class="btn btn-danger">Delete</button>
+                      </form>
+                    <% } %>
+                  <% } else { %>
+                    <% include ../static/partials/mainSignupTrigger.ejs %>
+                  <% } %>
+                </div>
+              </div>
+            </div>
+          </div>
+          <% if(!currentUser) { %>
+            <div class="row">
+              <div class="col-12">
+                <% include ../static/partials/signinForm.ejs %>
+              </div>
+            </div>
+          <% } %>
+        </div>
+        <!-- SIDEBAR END -->
+
       </div>
     </main>
 
     <%include ../static/partials/baseScripts.ejs %>
+
   </body>
 </html>
+

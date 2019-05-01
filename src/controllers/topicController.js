@@ -1,5 +1,6 @@
 const topicQueries = require("../db/queries.topics.js");
 const Authorizer = require("../policies/topic");
+const userQueries = require("../db/queries.users.js");
 
 module.exports = {
   index(req, res, next) {
@@ -7,7 +8,13 @@ module.exports = {
       if (err) {
         res.redirect(500, "static/index");
       } else {
-        res.render("topics/index", { topics });
+        if (req.user) {
+          userQueries.getUser(req.user.id, (err, result) => {
+            res.render("topics/index", { topics, result });
+          });
+        } else {
+          res.render("topics/index", { topics });
+        }
       }
     });
   },
@@ -29,7 +36,9 @@ module.exports = {
     if (authorized) {
       let newTopic = {
         title: req.body.title,
-        description: req.body.description
+        description: req.body.description,
+        img: req.body.img || null,
+        userId: req.user.id
       };
       topicQueries.addTopic(newTopic, (err, topic) => {
         if (err) {
@@ -49,7 +58,13 @@ module.exports = {
       if (err || topic == null) {
         res.redirect(404, "/");
       } else {
-        res.render("topics/show", { topic });
+        if (req.user) {
+          userQueries.getUser(req.user.id, (err, result) => {
+            res.render("topics/show", { topic, result });
+          });
+        } else {
+          res.render("topics/show", { topic });
+        }
       }
     });
   },

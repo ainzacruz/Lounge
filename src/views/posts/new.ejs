@@ -10,7 +10,7 @@
       <% include ../static/partials/messages.ejs %>
       <h1>New Post</h1>
       <form action="/topics/<%= topicId %>/posts/create" method="post">
-        <div class="form-group">
+        <div class="form-group post-title">
           <label for="title">Post title</label>
           <input
             type="text"
@@ -23,7 +23,18 @@
             >title must be 2 or more characters in length.</small
           >
         </div>
-        <div class="form-group">
+        <div class="form-group post-url">
+          <label for="img">Post Image URL</label>
+          <input
+            type="text"
+            class="form-control"
+            name="img"
+            aria-describedby="imgHelp"
+            placeholder="May leave blank"
+          />
+          <small class="text-muted" id="titleHelp">enter url</small>
+        </div>
+        <div class="form-group post-description">
           <label for="body">Post body</label>
           <textarea
             rows="4"

@@ -1,3 +1,116 @@
 body {
-  padding-top: 54px;
+  padding-top: 56px;
+  background-color: #dae0e6;
+}
+
+body main {
+  padding-top: 25px;
+  margin-bottom: 30px;
+}
+
+/* home */
+
+#signin-form-home {
+  padding: 10px;
+  background-color: white;
+  margin-top: 30px;
+  border-radius: 5px;
+}
+
+#signin-form-home button {
+  width: 100%;
+}
+
+#myTab {
+  margin-top: 25px;
+  border-radius: 5px;
+}
+
+/* Signin */
+
+#signin {
+  max-width: 500px;
+  margin-top: 50px;
+}
+
+#signin-signup {
+  margin-top: 10px;
+}
+
+/* Signup */
+
+#signupForm {
+  max-width: 500px;
+}
+
+/* Post */
+
+#comment-form {
+  margin-top: 25px;
+  max-width: 700px;
+}
+
+#comment-list {
+  margin-top: 50px;
+}
+
+#post-description {
+  margin-top: 10px;
+  margin-left: 50px;
+}
+
+.post-title {
+  max-width: 500px;
+}
+
+.post-description {
+  max-width: 500px;
+}
+
+.post-url {
+  max-width: 500px;
+}
+
+/* Card */
+
+.card .btn {
+  width: 100%;
+  margin-bottom: 10px;
+}
+
+.card-image {
+  max-height: 500px;
+  /* max-width: 300px; */
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* Topic */
+
+.topic-title {
+  max-width: 500px;
+}
+
+.topic-description {
+  max-width: 500px;
+}
+
+.topic-url {
+  max-width: 500px;
+}
+
+/* Profile */
+
+.profile-image {
+  height: 300px;
+  border-radius: 100%;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.profile-info {
+  margin-top: 30px;
+  margin-bottom: 30px;
 }

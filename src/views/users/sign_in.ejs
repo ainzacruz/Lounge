@@ -4,16 +4,19 @@
     <% include ../static/partials/head.ejs %>
   </head>
   <body>
-    <% include ../static/partials/navbar.ejs %>
+    <% include ../static/partials/navbar.ejs %> <% include
+    ../static/partials/messages.ejs %>
 
-    <main class="container">
-      <% include ../static/partials/messages.ejs %>
+    <main id="signin" class="container">
+      <!-- Logo and Label -->
+      <div id="signinLabel" class="text-center">
+        <h1 class="h3 mb-3 font-weight-light">Log in</h1>
+      </div>
 
-      <h1>Sign in</h1>
-
-      <form action="/users/sign_in" method="post">
+      <!-- Signin Form -->
+      <form class="form-signin" method="POST" action="/users/sign_in">
         <div class="form-group">
-          <label for="email">Email</label>
+          <label for="inputEmail">Email address</label>
           <input
             type="email"
             class="form-control"
@@ -21,13 +24,9 @@
             aria-describedby="emailHelp"
             placeholder="Enter email"
           />
-          <small class="text-muted" id="emailHelp"
-            >email address must be a valid address</small
-          >
         </div>
-
         <div class="form-group">
-          <label for="password">Password</label>
+          <label for="inputPassword">Password</label>
           <input
             type="password"
             class="form-control"
@@ -35,13 +34,16 @@
             aria-describedby="passwordHelp"
             placeholder="Enter password"
           />
-          <small class="text-muted" id="passwordHelp"
-            >password must match confirmation below</small
-          >
         </div>
-
-        <button type="submit" class="btn btn-primary">Sign in</button>
+        <button class="btn btn-lg btn-success btn-block" type="submit">
+          Sign in
+        </button>
       </form>
+
+      <!-- Sign up prompt -->
+      <div id="signin-signup" class="text-center float-center">
+        <p class="lead">New? <a href="/users/sign_up">Create an account</a>.</p>
+      </div>
     </main>
 
     <% include ../static/partials/baseScripts.ejs %>

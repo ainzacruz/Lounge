@@ -1,5 +1,5 @@
 const commentQueries = require("../db/queries.comments.js");
-const Authorizer = require("../policies/comment.js");
+const Authorizer = require("../policies/comment");
 
 module.exports = {
   create(req, res, next) {
@@ -18,7 +18,7 @@ module.exports = {
       });
     } else {
       req.flash("notice", "You must be signed in to do that.");
-      req.redirect("/users/sign_in");
+      res.redirect("/users/sign_in");
     }
   },
 

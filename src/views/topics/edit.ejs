@@ -4,14 +4,14 @@
     <% include ../static/partials/head.ejs %>
   </head>
   <body>
-    <% include ../static/partials/navbar.ejs %>
+    <% include ../static/partials/navbar.ejs %> <% include
+    ../static/partials/messages.ejs %>
 
     <main class="container">
-      <% include ../static/partials/messages.ejs %>
-      <h1>Edit Topic</h1>
+      <h1 class="display-1">Edit Topic</h1>
 
       <form action="/topics/<%= topic.id %>/update" method="post">
-        <div class="form-group">
+        <div class="form-group topic-title">
           <label for="title">Topic title</label>
           <input
             value="<%= topic.title %>"
@@ -22,7 +22,19 @@
             placeholder="Enter Title"
           />
         </div>
-        <div class="form-group">
+        <div class="form-group topic-url">
+          <label for="title">Profile Image URL</label>
+          <input
+            value="<%= topic.img %>"
+            type="text"
+            class="form-control"
+            name="img"
+            aria-describedby="imgHelp"
+            placeholder="May Leave Blank"
+          />
+          <small class="text-muted" id="imgHelp">enter url</small>
+        </div>
+        <div class="form-group topic-description">
           <label for="description">Description</label>
           <textarea
             rows="4"

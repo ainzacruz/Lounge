@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
   <head>
@@ -5,42 +6,158 @@
   </head>
   <body>
     <% include ../static/partials/navbar.ejs %>
-    <main class="container">
-      <% include ../static/partials/messages.ejs %>
+    <% include ../static/partials/messages.ejs %>
+    <main class="container-fluid">
+      <div class="row">
 
-      <div class="container">
-        <div class="row text-center">
-          <div class="col-12">
-            <h1 class="display-1">Topics</h1>
-            <p class="lead">Click on any topic and join in on the discussion</p>
+        <!-- MAIN START -->
+        <div class="col-lg-9 col-md-12">
+          <div class="row">
+            <div class="col-12">
+              <h1 class="display-1 text-center">Topics</h1>
+              <p class="lead text-center">Click on any topic and join in on the discussion</p>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-12">
+              <ul class="list-group">
+                <p class="mb-2 text-muted"><%= topics.length %> Topics</small>
+                <li class="list-group-item">
+                  <span>Title</span>
+                  <span class="float-right">Last Updated</span>
+                </li>
+                <% topics.forEach((topic) => { %>
+                  <li class="list-group-item">
+                    <a href="/topics/<%= topic.id %>"><%= topic.title %></a>
+                    <span class="float-right">
+                      <%= topic.updatedAt.toString().substring(4, 15) %>
+                    </span>
+                    <div><small><%= topic.posts.length %> Posts</small></div>
+                  </li>
+                <% }) %>
+              </ul>
+            </div>
           </div>
         </div>
-      </div>
-      <% if(currentUser && currentUser.isAdmin()) { %>
-      <a href="/topics/new" class="btn btn-success">New Topic</a>
-      <% } %>
-
-      <div class="container">
-        <div class="row">
-          <div class="col-12">
-            <ul class="list-group">
-              <li class="list-group-item">
-                <span>Title</span>
-                <span class="float-right">Last Updated</span>
-              </li>
-              <% topics.forEach((topic) => { %>
-              <li class="list-group-item">
-                <a href="/topics/<%= topic.id %>"><%= topic.title %></a>
-                <span class="float-right">
-                  <%= topic.updatedAt.toString().substring(4, 15) %>
-                </span>
-                <div><small><%= topic.posts.length %> Posts</small></div>
-              </li>
-              <% }) %>
-            </ul>
-          </div>
+        <!-- MAIN END -->
+        <!-- SIDE BAR -->
+        <div class="col-lg-3 d-none d-lg-block">
+          <% if(!currentUser) { %>
+            <div class="row">
+              <div class="col-12">
+                <div class="card">
+                  <div id="signup-call-home" class="card-body">
+                    <h5 class="card-title text-center">Welcome to the Lounge!</h5>
+                    <h6 class="card-subtitle mb-2 text-muted text-center">An application for users to share information.</h6>
+                    <p class="card-text text-center">Sign up now to join our community and get access to the web's first page on the internet!</p>
+                    <!-- Button trigger modal -->
+                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#signup">
+                      Join Now
+                    </button>
+                    <!-- Modal -->
+                    <div class="modal fade" id="signup" tabindex="-1" role="dialog" aria-labelledby="signup" aria-hidden="true">
+                      <div class="modal-dialog modal-dialog-centered" role="document">
+                        <div class="modal-content">
+                          <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLongTitle">Sign up</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                              <span aria-hidden="true">&times;</span>
+                            </button>
+                          </div>
+                          <div class="modal-body">
+                            <form id="signup-form" action="/users" method="POST">
+                              <div class="form-group">
+                                <label for="email">Email</label>
+                                <input type="email" name="email" placeholder="you@example.com" class="form-control"/>
+                                <small class="text-muted" id="titleHelp">email must be valid.</small>
+                              </div>
+                              <div class="form-group">
+                                <label for="password">Password</label>
+                                <input type="password" name="password" placeholder="Create a password" class="form-control"/>
+                                <small class="text-muted" id="passwordHelp">password must be 6 or more characters in length.</small>
+                              </div>
+                              <div class="form-group">
+                                <label for="password_conf">Password Confirmation</label>
+                                <input type="password" name="password_conf" placeholder="Re-enter your password" class="form-control"/>
+                                <small class="text-muted" id="password_confHelp">enter the password again.</small>
+                              </div>
+                              <button type="submit" class="btn btn-success" style="width:100%">Sign up</button>
+                            </form>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          <% } else { %>
+            <% if(currentUser) { %>
+              <div class="row">
+                <div class="col-12">
+                  <div id="logged-user-home-call" class="card text-center">
+                    <div class="card-body">
+                        <a href="/topics/new" class="btn btn-success">New Topic</a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            <% } %>
+            <div class="row">
+              <div class="col-12">
+                <ul class="nav nav-tabs" id="myTab" role="tablist" style="background-color: white;">
+                  <li class="nav-item">
+                    <a class="nav-link active" id="favorites-tab" data-toggle="tab" href="#favorites" role="tab" aria-controls="favorites" aria-selected="true">My Favorites</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" id="posts-tab" data-toggle="tab" href="#posts" role="tab" aria-controls="posts" aria-selected="false">My Posts</a>
+                  </li>
+                </ul>
+                <div class="tab-content" id="myTabContent" style="background-color:white;">
+                  <div class="tab-pane fade show active" id="favorites" role="tabpanel" aria-labelledby="favorites-tab">
+                    <ul class="list-group">
+                      <% if(result.favoritePosts.length !== 0) { %>
+                        <% result.favoritePosts.forEach((fav) => { %>
+                            <li class="list-group-item">
+                              <a href="/topics/<%= fav.post.topicId %>/posts/<%= fav.post.id %>">
+                                <%= fav.post.title %>
+                              </a>
+                            </li>
+                        <% }) %>
+                      <% } else { %>
+                        <li class="list-group-item">
+                          <p>Nothing here...</p>
+                        </li>
+                      <% } %>
+                    </ul>
+                  </div>
+                  <div class="tab-pane fade" id="posts" role="tabpanel" aria-labelledby="posts-tab">
+                    <ul class="list-group">
+                      <% if(result.posts.length !== 0) { %>
+                        <% result.posts.forEach((post) => { %>
+                            <li class="list-group-item">
+                              <a href="/topics/<%= post.topicId %>/posts/<%= post.id %>">
+                                <%= post.title %>
+                              </a>
+                            </li>
+                        <% }) %>
+                      <% } else { %>
+                        <li class="list-group-item">
+                          <p>Nothing here...</p>
+                        </li>
+                      <% } %>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </div>
+          <% } %>
         </div>
+        <!-- SIDEBAR END -->
+
       </div>
     </main>
+
+    <% include ../static/partials/baseScripts.ejs %>
   </body>
 </html>

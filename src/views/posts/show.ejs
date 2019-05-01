@@ -5,40 +5,282 @@
   </head>
   <body>
     <% include ../static/partials/navbar.ejs %>
+    <% include ../static/partials/messages.ejs %>
 
-    <main class="container">
-      <% include ../static/partials/messages.ejs %>
-      <div style="display: flex; align-items:center;">
-        <% if(currentUser) { %> <% include ../votes/voting.ejs %> <% } %>
-        <h1><%= post.title %></h1>
+    <main class="container-fluid">
+      <div class="row">
+
+        <!-- Main Body -->
+        <div class="col-lg-9 col-md-12">
+          <div class="row">
+            <div class="col-12">
+              <div style="display: flex; align-items:center;">
+                <% if(currentUser) { %>
+                  <% include ../votes/voting.ejs %>
+                <% } %>
+                <h1 class="display-4">
+                  <%= post.title %>
+                </h1>
+              </div>
+              <p class="lead" id="post-description"><%= post.body %></p>
+            </div>
+          </div>
+
+          <!-- Sidebar Responsive -->
+          <div class="col-12 d-md-block d-lg-none" style="margin-bottom:25px;">
+            <div class="row">
+              <div class="col-12">
+                <div class="card">
+                    <div class="card-body">
+                    <% if(post.img) { %>
+                      <img src="<%= post.img %>" class="figure-img img-fluid rounded" alt="Post Profile Picture" style="height: 500px;">
+                    <% } %>
+                    <p class="card-subtitle mb-2 text-muted text-center">Topic: <a href="/topics/<%= post.Topic.id %>"><%= post.Topic.title %></p></a>
+                    <p class="card-subtitle mb-2 text-muted text-center">Created At: <%= post.createdAt.toString().substring(4, 15) %></p>
+                    <p class="card-subtitle mb-2 text-muted text-center">Last Updated: <%= post.updatedAt.toString().substring(4, 15) %></p>
+                    <p class="card-subtitle mb-2 text-muted text-center">By: <a href="/users/<%= post.User.id %>"><%= post.User.email %></a></p>
+                    <% if(currentUser) { %>
+                      <a class="btn btn-primary" href="/users/<%= currentUser.id %>">View my profile</a>
+                      <span><% include ../favorites/favoriting.ejs %></span>
+                      <% if(currentUser.isAdmin() || currentUser.isOwner(post)) { %>
+                        <a href="/topics/<%= post.topicId %>/posts/<%= post.id %>/edit" class="btn btn-warning">Edit</a>
+                        <form style="display:initial" action="/topics/<%= post.topicId %>/posts/<%= post.id %>/destroy" method="post">
+                          <button type="submit" class="btn btn-danger">Delete</button>
+                        </form>
+                      <% } %>
+                    <% } else { %>
+                      <!-- Button trigger modal signup -->
+                      <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#smallSignup">
+                        Join now to start commenting
+                      </button>
+                      <!-- Modal signup -->
+                      <div class="modal fade" id="smallSignup" tabindex="-1" role="dialog" aria-labelledby="smallSignup" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered" role="document">
+                          <div class="modal-content">
+                            <div class="modal-header">
+                              <h5 class="modal-title" id="exampleModalLongTitle">Sign up</h5>
+                              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                              </button>
+                            </div>
+                            <div class="modal-body">
+                              <form id="signup-form" action="/users" method="POST">
+                                <div class="form-group">
+                                  <label for="email">Email</label>
+                                  <input type="email" name="email" placeholder="you@example.com" class="form-control"/>
+                                  <small class="text-muted" id="titleHelp">email must be valid.</small>
+                                </div>
+                                <div class="form-group">
+                                  <label for="password">Password</label>
+                                  <input type="password" name="password" placeholder="Create a password" class="form-control"/>
+                                  <small class="text-muted" id="passwordHelp">password must be 6 or more characters in length.</small>
+                                </div>
+                                <div class="form-group">
+                                  <label for="password_conf">Password Confirmation</label>
+                                  <input type="password" name="password_conf" placeholder="Re-enter your password" class="form-control"/>
+                                  <small class="text-muted" id="password_confHelp">enter the password again.</small>
+                                </div>
+                                <button type="submit" class="btn btn-success" style="width:100%">Sign up</button>
+                              </form>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <!-- Button trigger signin -->
+                      <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#login">
+                        Login
+                      </button>
+                      <!-- Modal signin -->
+                      <div class="modal fade" id="login" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered" role="document">
+                          <div class="modal-content">
+                            <div class="modal-header">
+                              <h5 class="modal-title" id="exampleModalLongTitle">Login</h5>
+                              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                              </button>
+                            </div>
+                            <div class="modal-body">
+                              <form id="signup-form" action="/users/sign_in" method="post">
+                                <div class="form-group">
+                                  <label for="email">Email</label>
+                                  <input type="email" class="form-control" name="email" aria-describedby="emailHelp" placeholder="Enter email">
+                                </div>
+                                <div class="form-group">
+                                  <label for="password">Password</label>
+                                  <input type="password" class="form-control" name="password" aria-describedby="passwordHelp" placeholder="Enter password">
+                                </div>
+                                <button type="submit" class="btn btn-success">Login</button>
+                              </form>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    <% } %>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- Sidebar End -->
+
+          <div class="row">
+            <div class="col-12">
+              <section id="comment-form">
+                <% if(currentUser) { %>
+                  <% include ../comments/new.ejs %>
+                <% } %>
+              </section>
+              <section id="comment-list">
+                <small class="text-muted"><%= post.comments.length %> Comments</small>
+                <hr>
+                <% if(post.comments) { %>
+                  <% post.comments.forEach((comment) => { %>
+                    <%- include("../comments/show.ejs", {comment}) %>
+                  <% }) %>
+                <% } %>
+              </section>
+            </div>
+          </div>
+        </div>
+        <!-- Main end -->
+
+        <!-- Sidebar -->
+        <div class="col-3 d-none d-lg-block">
+          <div class="row">
+            <div class="col-12">
+              <div class="card">
+                <div class="card-body">
+                  <% if(post.img) { %>
+                    <img src="<%= post.img %>" class="figure-img img-fluid rounded" alt="Post Profile Picture" style="height: 500px;">
+                  <% } %>
+                  <p class="card-subtitle mb-2 text-muted text-center">Topic: <a href="/topics/<%= post.Topic.id %>"><%= post.Topic.title %></p></a>
+                  <p class="card-subtitle mb-2 text-muted text-center">Created At: <%= post.createdAt.toString().substring(4, 15) %></p>
+                  <p class="card-subtitle mb-2 text-muted text-center">Last Updated: <%= post.updatedAt.toString().substring(4, 15) %></p>
+                  <p class="card-subtitle mb-2 text-muted text-center">By: <a href="/users/<%= post.User.id %>"><%= post.User.email %></a></p>
+                  <% if(currentUser) { %>
+                    <span><% include ../favorites/favoriting.ejs %></span>
+                    <% if(currentUser.isAdmin() || currentUser.isOwner(post)) { %>
+                      <a href="/topics/<%= post.topicId %>/posts/<%= post.id %>/edit" class="btn btn-warning">Edit</a>
+                      <form style="display:initial" action="/topics/<%= post.topicId %>/posts/<%= post.id %>/destroy" method="post">
+                        <button type="submit" class="btn btn-danger">Delete</button>
+                      </form>
+                    <% } %>
+                  <% } else { %>
+                    <!-- Button trigger modal -->
+                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#signup">
+                      Join now to start commenting
+                    </button>
+                    <!-- Modal -->
+                    <div class="modal fade" id="signup" tabindex="-1" role="dialog" aria-labelledby="signup" aria-hidden="true">
+                      <div class="modal-dialog modal-dialog-centered" role="document">
+                        <div class="modal-content">
+                          <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLongTitle">Sign up</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                              <span aria-hidden="true">&times;</span>
+                            </button>
+                          </div>
+                          <div class="modal-body">
+                            <form id="signup-form" action="/users" method="POST">
+                              <div class="form-group">
+                                <label for="email">Email</label>
+                                <input type="email" name="email" placeholder="you@example.com" class="form-control"/>
+                                <small class="text-muted" id="titleHelp">email must be valid.</small>
+                              </div>
+                              <div class="form-group">
+                                <label for="password">Password</label>
+                                <input type="password" name="password" placeholder="Create a password" class="form-control"/>
+                                <small class="text-muted" id="passwordHelp">password must be 6 or more characters in length.</small>
+                              </div>
+                              <div class="form-group">
+                                <label for="password_conf">Password Confirmation</label>
+                                <input type="password" name="password_conf" placeholder="Re-enter your password" class="form-control"/>
+                                <small class="text-muted" id="password_confHelp">enter the password again.</small>
+                              </div>
+                              <button type="submit" class="btn btn-success" style="width:100%">Sign up</button>
+                            </form>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  <% } %>
+                </div>
+              </div>
+            </div>
+          </div>
+          <% if(!currentUser) { %>
+            <div class="row">
+              <div class="col-12">
+                <form id="signin-form-home" action="/users/sign_in" method="post">
+                  <div class="form-group">
+                    <input type="email" class="form-control" name="email" aria-describedby="emailHelp" placeholder="Enter email">
+                  </div>
+                  <div class="form-group">
+                    <input type="password" class="form-control" name="password" aria-describedby="passwordHelp" placeholder="Enter password">
+                  </div>
+                  <button type="submit" class="btn btn-primary">Login</button>
+                </form>
+              </div>
+            </div>
+          <% } else { %>
+            <div class="row">
+              <div class="col-12">
+                <ul class="nav nav-tabs" id="myTab" role="tablist" style="background-color: white;">
+                  <li class="nav-item">
+                    <a class="nav-link active" id="favorites-tab" data-toggle="tab" href="#favorites" role="tab" aria-controls="favorites" aria-selected="true">My Favorites</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" id="posts-tab" data-toggle="tab" href="#posts" role="tab" aria-controls="posts" aria-selected="false">My Posts</a>
+                  </li>
+                </ul>
+                <div class="tab-content" id="myTabContent" style="background-color:white;">
+                  <div class="tab-pane fade show active" id="favorites" role="tabpanel" aria-labelledby="favorites-tab">
+                    <ul class="list-group">
+                      <% if(result.favoritePosts.length !== 0) { %>
+                        <% result.favoritePosts.forEach((fav) => { %>
+                            <li class="list-group-item">
+                              <a href="/topics/<%= fav.post.topicId %>/posts/<%= fav.post.id %>">
+                                <%= fav.post.title %>
+                              </a>
+                            </li>
+                        <% }) %>
+                      <% } else { %>
+                        <li class="list-group-item">
+                          <p>Nothing here...</p>
+                        </li>
+                      <% } %>
+                    </ul>
+                  </div>
+                  <div class="tab-pane fade" id="posts" role="tabpanel" aria-labelledby="posts-tab">
+                    <ul class="list-group">
+                      <% if(result.posts.length !== 0) { %>
+                        <% result.posts.forEach((post) => { %>
+                            <li class="list-group-item">
+                              <a href="/topics/<%= post.topicId %>/posts/<%= post.id %>">
+                                <%= post.title %>
+                              </a>
+                            </li>
+                        <% }) %>
+                      <% } else { %>
+                        <li class="list-group-item">
+                          <p>Nothing here...</p>
+                        </li>
+                      <% } %>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </div>
+          <% } %>
+        </div>
+        <!-- Sidebar end -->
+
       </div>
-      <% if(currentUser && (currentUser.isAdmin() || currentUser.isOwner(post)))
-      { %>
-      <a
-        href="/topics/<%= post.topicId %>/posts/<%= post.id %>/edit"
-        class="btn btn-warning"
-        >Edit</a
-      >
-      <form
-        style="display:initial"
-        action="/topics/<%= post.topicId %>/posts/<%= post.id %>/destroy"
-        method="post"
-      >
-        <button type="submit" class="btn btn-danger">Delete</button>
-      </form>
-      <% } %> <% if(currentUser) { %> <% include ../favorites/favoriting.ejs %>
-      <% } %>
-      <p><%= post.body %></p>
-      <section id="comment-form">
-        <% if(currentUser) { %> <% include ../comments/new.ejs %> <% } %>
-      </section>
-
-      <section id="comment-list">
-        <% if(post.comments) { %> <% post.comments.forEach((comment) => { %> <%-
-        include("../comments/show.ejs", {comment}) %> <% }) %> <% } %>
-      </section>
     </main>
 
     <% include ../static/partials/baseScripts.ejs %>
+
   </body>
 </html>
+

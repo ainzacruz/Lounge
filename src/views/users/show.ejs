@@ -1,63 +1,96 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <% include ../static/partials/head.ejs %>
-  </head>
-  <body>
-    <% include ../static/partials/navbar.ejs %>
+    <head>
+        <% include ../static/partials/head.ejs %>
+    </head>
+    <body>
+        <% include ../static/partials/navbar.ejs %>
+        <% include ../static/partials/messages.ejs %>
 
-    <main class="container">
-      <% include ../static/partials/messages.ejs %>
-
-      <h1><%= `${user.email}'s profile` %></h1>
-
-      <hr />
-
-      <h2>Latest Posts</h2>
-
-      <ul class="list-unstyled">
-        <% if(posts) { %> <% posts.forEach((post) => { %>
-        <li>
-          <a href="/topics/<%= post.topicId %>/posts/<%= post.id %>">
-            <%= post.title %>
-          </a>
-        </li>
-        <% }) %> <% } %>
-      </ul>
-      <hr />
-
-      <h2>Favorited Posts</h2>
-
-      <ul class="list-unstyled">
-        <% if(favoritePosts) { %> <% favoritePosts.forEach((fav) => { %>
-        <li>
-          <a href="/topics/<%= fav.post.topicId %>/posts/<%= fav.post.id %>">
-            <%= fav.post.title %>
-          </a>
-        </li>
-        <% }) %> <% } %>
-      </ul>
-
-      <hr />
-
-      <h2>Latest Comments</h2>
-
-      <ul class="list-unstyled">
-        <% if(comments) { %> <% comments.forEach((comment) => { %>
-        <li>
-          <span>Post: </span
-          ><a
-            href="/topics/<%= comment.Post.topicId %>/posts/<%= comment.Post.id %>"
-          >
-            <%= comment.Post.title %>
-          </a>
-          <p>Comment: <%= comment.body %></p>
-        </li>
-        <hr />
-        <% }) %> <% } %>
-      </ul>
-    </main>
+        <main class="container">
+            <div class="row">
+                <div class="col-lg-4 col-md-12">
+                    <img src="<%= user.img %>" class="figure-img img-fluid rounded profile-image" alt="Profile Picture">
+                    <div class="profile-info text-center">
+                        <p class="lead"><%= user.email %></h1>
+                        <p class="lead">Member Since: <%= user.createdAt.toString().substring(4, 15) %></p>
+                    </div>
+                </div>
+                <div class="col-lg-8 col-md-12">
+                    <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist" style="background-color:white;">
+                        <li class="nav-item">
+                            <a class="nav-link active" id="pills-favorite-tab" data-toggle="pill" href="#favorites" role="tab" aria-controls="pills-favorites" aria-selected="true">Favorites</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" id="pills-profile-tab" data-toggle="pill" href="#topics" role="tab" aria-controls="pills-topics" aria-selected="false">Topics</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" id="pills-profile-tab" data-toggle="pill" href="#posts" role="tab" aria-controls="pills-posts" aria-selected="false">Posts</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" id="pills-contact-tab" data-toggle="pill" href="#comments" role="tab" aria-controls="pills-comments" aria-selected="false">Comments</a>
+                        </li>
+                    </ul>
+                    <div class="tab-content" id="pills-tabContent">
+                        <div class="tab-pane fade show active" id="favorites" role="tabpanel" aria-labelledby="pills-favorites-tab">
+                            <ul class="list-group">
+                                <% if(favoritePosts) { %>
+                                    <% favoritePosts.forEach((fav) => { %>
+                                        <li class="list-group-item">
+                                            <a href="/topics/<%= fav.post.topicId %>/posts/<%= fav.post.id %>">
+                                                <%= fav.post.title %>
+                                            </a>
+                                        </li>
+                                    <% }) %>
+                                <% } %>
+                            </ul>
+                        </div>
+                        <div class="tab-pane fade" id="topics" role="tabpanel" aria-labelledby="pills-topics-tab">
+                            <ul class="list-group">
+                                <% if(topics) { %>
+                                    <% topics.forEach((topic) => { %>
+                                        <li class="list-group-item">
+                                            <a href="/topics/<%= topic.id %>">
+                                                <%= topic.title %>
+                                            </a>
+                                        </li>
+                                    <% }) %>
+                                <% } %>
+                            </ul>
+                        </div>
+                        <div class="tab-pane fade" id="posts" role="tabpanel" aria-labelledby="pills-posts-tab">
+                            <ul class="list-group">
+                                <% if(posts) { %>
+                                    <% posts.forEach((post) => { %>
+                                        <li class="list-group-item">
+                                            <a href="/topics/<%= post.topicId %>/posts/<%= post.id %>">
+                                                <%= post.title %>
+                                            </a>
+                                        </li>
+                                    <% }) %>
+                                <% } %>
+                            </ul>
+                        </div>
+                        <div class="tab-pane fade" id="comments" role="tabpanel" aria-labelledby="pills-comments-tab">
+                            <ul class="list-group">
+                                <% if(comments) { %>
+                                    <% comments.forEach((comment) => { %>
+                                        <li class="list-group-item">
+                                            <span>Post: </span><a href="/topics/<%= comment.Post.topicId %>/posts/<%= comment.Post.id %>">
+                                                <%= comment.Post.title %>
+                                            </a>
+                                            <p class="mt-2"><%= comment.body %></p>
+                                        </li>
+                                    <% }) %>
+                                <% } %>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
 
     <% include ../static/partials/baseScripts.ejs %>
-  </body>
+    </body>
 </html>
+

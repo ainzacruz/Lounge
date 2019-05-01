@@ -10,6 +10,14 @@ module.exports = (sequelize, DataTypes) => {
       description: {
         type: DataTypes.STRING,
         allowNull: false
+      },
+      img: {
+        type: DataTypes.STRING,
+        allowNull: true
+      },
+      userId: {
+        type: DataTypes.INTEGER,
+        allowNull: false
       }
     },
     {}
@@ -26,12 +34,19 @@ module.exports = (sequelize, DataTypes) => {
       as: "posts"
     });
 
-    Topic.addScope("lastFiveTopics", () => {
+    Topic.belongsTo(models.User, {
+      foreignKey: "userId",
+      onDelete: "CASCADE"
+    });
+
+    Topic.addScope("lastFiveFor", userId => {
       return {
+        where: { userId: userId },
         limit: 5,
         order: [["createdAt", "DESC"]]
       };
     });
   };
+
   return Topic;
 };

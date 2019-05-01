@@ -1,6 +1,6 @@
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
   <div class="container-fluid">
-    <a class="navbar-brand" href="/">foundit</a>
+    <a class="navbar-brand" href="/">Lounge</a>
     <button
       class="navbar-toggler"
       type="button"
@@ -14,17 +14,31 @@
     <div class="collapse navbar-collapse" id="navbarResponsive">
       <ul class="navbar-nav ml-auto">
         <li class="nav-item">
-          <a class="nav-link" href="/topics">Topics</a>
-        </li>
-        <li class="nav-item">
           <a class="nav-link" href="/">Home</a>
         </li>
-        <% if(currentUser) { %>
         <li class="nav-item">
-          <a class="nav-link" href="/users/<%= currentUser.id %>">Profile</a>
+          <a class="nav-link" href="/topics">Topics</a>
         </li>
-        <li class="nav-item">
-          <a class="nav-link" href="/users/sign_out">Sign out</a>
+        <% if(currentUser) { %>
+        <li class="nav-item dropdown">
+          <a
+            class="nav-link dropdown-toggle"
+            href="#"
+            id="navbarDropdown"
+            role="button"
+            data-toggle="dropdown"
+            aria-haspopup="true"
+            aria-expanded="false"
+          >
+            <%= currentUser.email %>
+          </a>
+          <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <a class="dropdown-item" href="/users/<%= currentUser.id %>"
+              >Profile</a
+            >
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item" href="/users/sign_out">Sign out</a>
+          </div>
         </li>
         <% } else { %>
         <li class="nav-item">

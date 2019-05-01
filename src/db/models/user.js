@@ -18,6 +18,12 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.STRING,
         allowNull: false,
         defaultValue: "member"
+      },
+      img: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        defaultValue:
+          "https://www.qualiscare.com/wp-content/uploads/2017/08/default-user.png"
       }
     },
     {}
@@ -43,6 +49,11 @@ module.exports = (sequelize, DataTypes) => {
     User.hasMany(models.Favorite, {
       foreignKey: "userId",
       as: "favorites"
+    });
+
+    User.hasMany(models.Topic, {
+      foreignKey: "userId",
+      as: "topics"
     });
   };
 
