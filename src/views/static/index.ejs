@@ -5,60 +5,11 @@
   </head>
   <body>
     <!-- Navigation  -->
-    <% include ./partials/navbar.ejs %> <% include
-    ../static/partials/messages.ejs %>
+    <% include ./partials/navbar.ejs %> <% include ./partials/messages.ejs %>
 
     <main class="container-fluid">
       <div class="row">
-        <!-- Sidebar  -->
-        <div class="col-12 d-md-block d-lg-none" style="margin-bottom: 25px;">
-          <% if(!currentUser) { %>
-          <div class="row">
-            <div class="col-12">
-              <div class="card">
-                <div class="card-body">
-                  <h5 class="card-title text-center">Welcome to the Lounge!</h5>
-                  <h6 class="card-subtitle mb-2 text-muted text-center">
-                    An application for users to share information.
-                  </h6>
-                  <p class="card-text text-center">
-                    Sign up now to join our community and get access to the
-                    web's largest forum for discussion on various topics.
-                  </p>
-                  <% include ./partials/signupModal.ejs %> <% include
-                  ./partials/signinTrigger.ejs %>
-                  <a class="btn btn-primary" href="/topics"
-                    >See all avaliable topics</a
-                  >
-                </div>
-              </div>
-            </div>
-          </div>
-          <% } else { %>
-          <div class="row">
-            <div class="col-12">
-              <div class="card text-center">
-                <div class="card-body">
-                  <h5 class="card-title">
-                    Welcome back, <%= currentUser.email %>!
-                  </h5>
-                  <a class="btn btn-primary" href="/topics/new"
-                    >Start a new topic</a
-                  >
-                  <a class="btn btn-primary" href="/topics"
-                    >See all avaliable topics</a
-                  >
-                  <a class="btn btn-primary" href="/users/<%= currentUser.id %>"
-                    >View my profile</a
-                  >
-                </div>
-              </div>
-            </div>
-          </div>
-          <% } %>
-        </div>
-        <!-- Sidebar end -->
-        <!-- Main start -->
+        <!-- MAIN START -->
         <div class="col-lg-9 col-md-12">
           <div class="list-group">
             <% posts.forEach((post) => { %>
@@ -108,15 +59,15 @@
             <% }) %>
           </div>
         </div>
-        <!-- Main end -->
-        <!-- Sidebar start -->
+        <!-- MAIN END -->
+        <!-- SIDEBAR START -->
         <div class="col-3 d-none d-lg-block float-center">
           <% if(!currentUser) { %>
           <div class="row">
             <div class="col-12">
               <div class="card">
                 <div class="card-body">
-                  <h5 class="card-title text-center">Welcome to Lounge!</h5>
+                  <h5 class="card-title text-center">Welcome to the Lounge!</h5>
                   <h6 class="card-subtitle mb-2 text-muted text-center">
                     An application for users to share information.
                   </h6>
@@ -128,14 +79,13 @@
                   <a class="btn btn-primary" href="/topics"
                     >See all avaliable topics</a
                   >
+                  <% include ./partials/signinForm.ejs %>
                 </div>
               </div>
             </div>
           </div>
           <div class="row">
-            <div class="col-12">
-              <% include ./partials/signinForm.ejs %>
-            </div>
+            <div class="col-12"></div>
           </div>
           <% } else { %>
           <div class="row">
@@ -162,7 +112,7 @@
           </div>
           <% } %>
         </div>
-        <!-- Sidebar end-->
+        <!-- SIDEBAR END -->
       </div>
     </main>
 
