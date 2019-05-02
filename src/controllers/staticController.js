@@ -21,16 +21,13 @@ module.exports = {
         if (req.user) {
           userQueries.getUser(req.user.id, (err, result) => {
             res.render("static/index", {
-              title: "Welcome to the Lounge!",
+              title: "Welcome to foundit",
               posts,
               result
             });
           });
         } else {
-          res.render("static/index", {
-            title: "Welcome to the Lounge!",
-            posts
-          });
+          res.render("static/index", { title: "Welcome to foundit", posts });
         }
       })
       .catch(err => {
