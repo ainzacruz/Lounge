@@ -11,7 +11,7 @@
 
         <!-- SIDEBAR START -->
         <div class="col-3 d-none d-lg-block float-center">
-          <% if(!currentUser) { %>
+          
           <div class="row">
             <div class="col-12">
               <div class="card">
@@ -24,11 +24,11 @@
                     Sign up now to join our community and get access to the
                     web's largest forum for discussion on various topics.
                   </p>
-                  <% include ./partials/mainSignupTrigger.ejs %>
+                  
                   <a class="btn btn-primary" href="/topics"
                     >See all avaliable topics</a
                   >
-                  <% include ./partials/signinForm.ejs %>
+                  
                 </div>
               </div>
             </div>
@@ -36,13 +36,13 @@
           <div class="row">
             <div class="col-12"></div>
           </div>
-          <% } else { %>
+       
           <div class="row">
             <div class="col-12">
               <div class="card text-center">
                 <div class="card-body">
                   <h5 class="card-title">
-                    Welcome back, <%= currentUser.email %>!
+                 
                   </h5>
                   <a class="btn btn-primary" href="/topics/new"
                     >Start a new topic</a
@@ -56,10 +56,10 @@
           </div>
           <div class="row">
             <div class="col-12">
-              <% include ./partials/userTabs.ejs %>
+           
             </div>
           </div>
-          <% } %>
+     
         </div>
         <!-- SIDEBAR END -->
       </div>
