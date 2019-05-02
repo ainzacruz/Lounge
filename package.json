@@ -1,5 +1,5 @@
 {
-  "name": "foundit",
+  "name": "lounge",
   "version": "1.0.0",
   "description": "A reddit-like application for users to discuss and share content",
   "main": "src/server.js",
